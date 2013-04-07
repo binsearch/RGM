@@ -17,8 +17,122 @@ using namespace std;
 namespace cs296
 {
   dominos_t::dominos_t()
-  {
+  {	//ground
+    	  b2Body* b1; 
+    	{
+    	  b2EdgeShape shape;
+      	  shape.Set(b2Vec2(-90.0f, 0.0f), b2Vec2(90.0f, 0.0f));	
+	
+      	  b2BodyDef bd;
+          b1 = m_world->CreateBody(&bd);
+          b1->CreateFixture(&shape, 0.0f);
+        }
+        // Top horizontal shelf
+   
+   	 {
     
+    	  b2PolygonShape shape;
+     	 shape.SetAsBox(3.0f, 0.25f);//breadth,height
+	
+     	 b2BodyDef bd;
+     	 bd.position.Set(-32.0f, 35.0f);
+     	 b2Body* ground = m_world->CreateBody(&bd);
+     	 ground->CreateFixture(&shape, 0.0f);
+   	 }
+        
+        //Small red ball at the top
+        {
+        	b2Body* smallSphere;
+        	b2CircleShape smallCircle;
+        	smallCircle.m_radius = 0.8;
+        	b2FixtureDef smallBallFixtureDef;
+    		smallBallFixtureDef.shape = &smallCircle;
+    		smallBallFixtureDef.density=1.0f;
+    		smallBallFixtureDef.friction=0.0f;
+    		smallBallFixtureDef.restitution = 0.0f;
+    		b2BodyDef smallBallBodyDef;
+    		smallBallBodyDef.type = b2_dynamicBody;
+    		smallBallBodyDef.position.Set(-32.0f, 35.25f);
+    		smallSphere = m_world->CreateBody(&smallBallBodyDef);
+    		smallSphere->CreateFixture(&smallBallFixtureDef);
+    		
+    		b2Body* bigSphere;
+    		b2CircleShape bigCircle;
+    		bigCircle.m_radius = 1.8;
+    	
+    		b2FixtureDef bigBallFixtureDef;
+    		bigBallFixtureDef.shape = &bigCircle;
+    		bigBallFixtureDef.density=2.0f;
+    		bigBallFixtureDef.friction=0.0f;
+    		bigBallFixtureDef.restitution = 0.0f;
+	        
+	        b2BodyDef bigBallBodyDef;
+	        bigBallBodyDef.type = b2_dynamicBody;
+	        bigBallBodyDef.position.Set(-36.0f, 22);
+	        bigSphere = m_world->CreateBody(&bigBallBodyDef);
+	        bigSphere->CreateFixture(&bigBallFixtureDef);
+        	
+        	b2PulleyJointDef* fstpulley = new b2PulleyJointDef();
+        	b2Vec2 worldAnchorGround1(-36.0f,36.05f);
+        	
+        	float32 ratio = 1.0f;
+        	fstpulley->Initialize(smallSphere, bigSphere, worldAnchorGround1,worldAnchorGround1,  smallSphere->GetWorldCenter(), bigSphere->GetWorldCenter(), ratio);
+        	m_world->CreateJoint(fstpulley);
+        
+        }
+        
+        
+        {
+        	b2Body* rod;
+        	
+        	b2PolygonShape rodShape;
+        	rodShape.SetAsBox(0.3f,3);
+        	
+        	b2FixtureDef rodFixtureDef;
+        	rodFixtureDef.shape = &rodShape;
+        	
+        	b2BodyDef rodBodyDef;
+        	rodBodyDef.type= b2_dynamicBody;
+     	 	rodBodyDef.position.Set(-36.0f, 33.0f);
+     	 	rod  = m_world->CreateBody(&rodBodyDef);
+     	 	rod->CreateFixture(&rodFixtureDef);
+        	
+        }
+        
+        
+        
+       /* {
+			float32 a = 2.0f;
+			float32 b = 4.0f;
+			float32 y = 16.0f;
+			float32 L = 12.0f;
+
+			b2PolygonShape shape;
+			shape.SetAsBox(a, b);
+
+			b2BodyDef bd;
+			bd.type = b2_dynamicBody;
+
+			bd.position.Set(-10.0f, y);
+			b2Body* body1 = m_world->CreateBody(&bd);
+			body1->CreateFixture(&shape, 5.0f);
+
+			bd.position.Set(10.0f, y);
+			b2Body* body2 = m_world->CreateBody(&bd);
+			body2->CreateFixture(&shape, 5.0f);
+
+			b2PulleyJointDef pulleyDef;
+			b2Vec2 anchor1(-10.0f, y + b);
+			b2Vec2 anchor2(10.0f, y + b);
+			b2Vec2 groundAnchor1(-10.0f, y + b + L);
+			b2Vec2 groundAnchor2(10.0f, y + b + L);
+			pulleyDef.Initialize(body1, body2, groundAnchor1, groundAnchor2, anchor1, anchor2, 2.0f);
+
+			m_world->CreateJoint(&pulleyDef);
+		}*/
+        
+        
+        
 	    {	  
 	        float vel;
 	        vel = 7;  
@@ -70,7 +184,7 @@ namespace cs296
   		kinematicBody->CreateFixture(&boxFixtureDef); //add fixture to body
   
   		kinematicBody->SetLinearVelocity( b2Vec2( 8, 0 ) ); //move right 1 unit per second
-  		kinematicBody->SetAngularVelocity( 360 * DEGTORAD ); //1 turn per second counter-clockwise*/	
+  		kinematicBody->SetAngularVelocity( 360 * DEGTORAD ); //1 turn per second counter-clockwise*/
   		//m_world->DestroyBody(staticBody);
   		
   		
@@ -80,7 +194,7 @@ namespace cs296
   	
   	//the dominos part
   		
-    /*{
+    {
       float x,y;
       x = 0;
       y = 31.25;
@@ -113,7 +227,7 @@ namespace cs296
       bd.type = b2_staticBody;
       b2Body* ground = m_world->CreateBody(&bd);
       ground->CreateFixture(&shape, 0.0f); 
-    }*/
+    }
   		
   	
   	//The revolving  platforms
