@@ -96,8 +96,28 @@ namespace cs296
      	 	rodBodyDef.position.Set(-36.0f, 33.0f);
      	 	rod  = m_world->CreateBody(&rodBodyDef);
      	 	rod->CreateFixture(&rodFixtureDef);
+     	 	
+     	 	b2Body* hinge;
+     	 	
+     	 	b2PolygonShape hingeShape;
+     	 	hingeShape.SetAsBox(0.0f,0.0f);
+     	 	
+     	 	b2FixtureDef hingeFixtureDef;
+     	 	hingeFixtureDef.shape = &hingeShape;
+     	 	
+     	 	b2BodyDef hingeBodyDef;
+     	 	hingeBodyDef.position.Set(-36.0f,31.5f);
+     	 	hinge = m_world->CreateBody(&hingeBodyDef);
+     	 	hinge->CreateFixture(&hingeFixtureDef);
+     	 	
+     	 	b2RevoluteJointDef hingeJointDef;
+     	 	
+     	 	
+     	 	hingeJointDef.Initialize(rod,hinge,b2Vec2(-36.0f,31.5f));
+     	 	m_world->CreateJoint(&hingeJointDef);
         	
         }
+        
         
         
         
