@@ -31,6 +31,18 @@ namespace cs296
   //! Notice the public inheritance - why do we inherit the base_sim_t class?
   class dominos_t : public base_sim_t
   {
+    private:
+         void revoluteJoint(b2Body *bodyA,b2Body* bodyB,b2Vec2 anchorA,b2Vec2 anchorB) {
+            b2RevoluteJointDef revoluteJointDef;
+            revoluteJointDef.localAnchorA.Set(anchorA.x,anchorA.y);
+            revoluteJointDef.localAnchorB.Set(anchorB.x,anchorB.y);
+            revoluteJointDef.bodyA=bodyA;
+            revoluteJointDef.bodyB=bodyB;
+            m_world->CreateJoint(&revoluteJointDef);
+        }
+  
+  
+  
   public:
     
     dominos_t();
@@ -39,6 +51,10 @@ namespace cs296
     {
       return new dominos_t;
     }
+    
+  
+  
+    
   };
 }
   
