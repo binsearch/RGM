@@ -14,6 +14,83 @@ using namespace std;
 #define DEGTORAD 0.0174532925199432957f
 #define RADTODEG 57.295779513082320876f
 
+class Ball {
+public:
+    //class member variables
+    b2Body* m_body;
+    float m_radius;
+
+
+    Ball(b2World* world, float radius,float x,float y,float dens) {
+        m_body = NULL;
+        m_radius = radius;
+
+        //set up dynamic body, store in class variable
+        b2BodyDef myBodyDef;
+        myBodyDef.type = b2_dynamicBody;
+        myBodyDef.position.Set(x,y);
+        m_body = world->CreateBody(&myBodyDef);
+
+        //add circle fixture
+        b2CircleShape circleShape;
+        circleShape.m_p.Set(0, 0);
+        circleShape.m_radius = m_radius; //use class variable
+        b2FixtureDef myFixtureDef;
+        myFixtureDef.shape = &circleShape;
+        myFixtureDef.density = dens;
+        m_body->CreateFixture(&myFixtureDef);
+    }
+    ~Ball() {}
+
+    void renderAtBodyPosition() {
+        //safety check
+        if ( m_body == NULL ) return;
+
+        //get current position from Box2D
+        b2Vec2 pos = m_body->GetPosition();
+        float angle = m_body->GetAngle();
+
+        //call normal render at different position/rotation
+        glPushMatrix();
+        glTranslatef( pos.x, pos.y, 0 );
+        glRotatef( angle * RADTODEG, 0, 0, 1 );
+        glScalef( m_radius, m_radius, 1 );
+        render();
+        glPopMatrix();
+    }
+
+    void render() {
+        //change the color depending on the current velocity
+        b2Vec2 vel = m_body->GetLinearVelocity();
+        float red = vel.Length() / 10.0;
+        red = b2Min( 1.0f, red );
+        glColor3f(red,0.5,0.5);
+
+        //nose and eyes
+        glPointSize(4);
+        glBegin(GL_POINTS);
+        glVertex2f( 0, 0 );
+        glVertex2f(-0.5, 0.5 );
+        glVertex2f( 0.5, 0.5 );
+        glEnd();
+
+        //mouth
+        glBegin(GL_LINE_LOOP);
+        glVertex2f(-0.5,  -0.5 );
+        glVertex2f(-0.16, -0.6 );
+        glVertex2f( 0.16, -0.6 );
+        glVertex2f( 0.5,  -0.5 );
+        glEnd();
+
+        //circle
+        glBegin(GL_LINE_LOOP);
+        for (float a = 0; a < 360 * DEGTORAD; a += 30 * DEGTORAD)
+            glVertex2f( sinf(a), cosf(a) );
+        glEnd();
+    }
+};
+
+
 namespace cs296
 {
   dominos_t::dominos_t()
@@ -88,6 +165,7 @@ namespace cs296
         }
         
         
+        
     
         
         
@@ -122,6 +200,32 @@ namespace cs296
      		jointDef.collideConnected = false;
       		m_world->CreateJoint(&jointDef); 
         }
+        
+        {
+        	b2Body* boulderGrdBody;
+        	
+        	b2PolygonShape grd;
+        	grd.SetAsBox(2.0f,0.1f);
+        	
+        	b2BodyDef grdBodyDef;
+        	grdBodyDef.position.Set(-40.60f,38.8f);
+        	
+        	b2FixtureDef grdFixtureDef;
+        	grdFixtureDef.shape=&grd;
+        	grdFixtureDef.density=40.0f;
+        	grdFixtureDef.friction=81.5f;
+        	grdFixtureDef.restitution=0.0;
+        	
+        	boulderGrdBody = m_world->CreateBody(&grdBodyDef);
+        	boulderGrdBody->CreateFixture(&grdFixtureDef); 
+        
+        
+        
+        
+        
+        }
+        
+        
         // Newton's Cradle
         {
         	b2PolygonShape barShape;
@@ -991,17 +1095,17 @@ namespace cs296
 	 {
 	b2BodyDef myBodyDef;
 	myBodyDef.type = b2_dynamicBody; //this will be a dynamic body
-	myBodyDef.position.Set(3, 5); //set the starting position
+	myBodyDef.position.Set(3, 8.5); //set the starting position
 	myBodyDef.angle = 0; //set the starting angle
 	b2Body* dynamicBody = m_world->CreateBody(&myBodyDef);
 	b2CircleShape circle;
-        circle.m_radius = 7;
+        circle.m_radius = 8.6;
 
 	b2FixtureDef boxFixtureDef;
 	boxFixtureDef.shape = &circle;
-	boxFixtureDef.density = 1;
+	boxFixtureDef.density = 1.2;
 	dynamicBody->CreateFixture(&boxFixtureDef);
-	myBodyDef.position.Set(3, -1);
+	myBodyDef.position.Set(3, 0);
 	myBodyDef.type = b2_staticBody;
   	b2Body* supBody = m_world->CreateBody(&myBodyDef);
    	b2PolygonShape polygonShape;
@@ -1011,8 +1115,45 @@ namespace cs296
    	supBody->CreateFixture(&boxFixtureDef);
   
    }
-
-
+	//Human
+	float humanX=-24.0f,humanH = 2.5f;
+   {	
+        	b2BodyDef hingeBodyDef;
+      		hingeBodyDef.position.Set(humanX, -22.f);
+      		hingeBodyDef.type = b2_staticBody;
+     		b2Body* hinge = m_world->CreateBody(&hingeBodyDef);
+      		
+      		b2PolygonShape rodShape;
+      		rodShape.SetAsBox(0.2f, humanH);
+	
+      
+      		b2BodyDef rodBodyDef;
+      		rodBodyDef.position.Set(humanX, -22.f+humanH);
+      		rodBodyDef.type = b2_dynamicBody;
+      		b2Body* rod = m_world->CreateBody(&rodBodyDef);
+      
+     	        b2FixtureDef *rodFixtureDef = new b2FixtureDef;
+      		rodFixtureDef->density = 0.25f;
+      		rodFixtureDef->shape = new b2PolygonShape;
+      		rodFixtureDef->shape = &rodShape;
+      		rod->CreateFixture(rodFixtureDef);
+      
+     	        b2RevoluteJointDef revJointDef;
+        	b2Vec2 pos;
+        	pos.Set(humanX,-22.f);
+        	revJointDef.Initialize(hinge, rod, pos);
+        	m_world->CreateJoint(&revJointDef);
+        	
+        	Ball head(m_world,.75,humanX,-22.0f+ 2*humanH,0.);
+	 	head.renderAtBodyPosition();
+	 	b2RevoluteJointDef headJointDef;
+	 	b2Vec2 neckPos;
+	 	neckPos.Set(humanX,-22.0f+2*humanH);
+	 	
+	 	
+	 	headJointDef.Initialize(rod,head.m_body,neckPos);
+        	m_world->CreateJoint(&headJointDef);
+        }
 
 	 
   	
