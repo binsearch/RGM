@@ -1195,7 +1195,7 @@ namespace cs296
 	    
 	    
 	    {
-		    //* then we create two 'L' shaped fixtures and attach these two diagonally opposite links to create the final conveyer belt
+		    // Then we create two 'L' shaped fixtures and attach these two diagonally opposite links to create the final conveyer belt
 		    {
 		    	b2PolygonShape shape;
 		    	shape.SetAsBox(0.3f,0.1f);
@@ -1231,7 +1231,8 @@ namespace cs296
 		    }    
 		    
 	    }
-	    
+	    // These are the actual platforms on which the ball falls
+	    // These are  actually connected to the conveyor belt
 	    {
 	        b2PolygonShape polygonShape;
 
@@ -1287,5 +1288,5 @@ namespace cs296
   		
 	}
 
-  sim_t *sim = new sim_t("                                                                           Tomb of Pharoah Tutankhamun", dominos_t::create);
+  sim_t *sim = new sim_t("                                                                           Tomb of Pharaoh Tutankhamun", dominos_t::create);
 }
