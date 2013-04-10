@@ -1,0 +1,14 @@
+import os
+os.chdir("../external/src")
+os.system("rm -rf Box2D/")
+os.system("tar -zxvf Box2D.tgz")
+os.system("cd Box2D")
+os.system("mkdir build296")
+os.system("cd build296")
+os.system("cmake ../")
+os.system("make")
+os.system("make install")
+os.chdir("../../../..")
+os.system("make exe")
+os.system("make doc")
+

@@ -1,8 +1,8 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.1.25)  10 APR 2013 18:13
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.1.25)  10 APR 2013 22:46
 entering extended mode
  %&-line parsing enabled.
-**_cs296_19.tex
-(./_cs296_19.tex
+**g19_proj_report.tex
+(./g19_proj_report.tex
 LaTeX2e <2009/09/24>
 Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
 yphenation, loaded.
@@ -70,8 +70,9 @@ Package ifvtex Info: VTeX not detected.
 \Gm@odd@mp=\dimen107
 \Gm@even@mp=\dimen108
 \Gm@dimlist=\toks15
-) (./_cs296_19.aux)
-\openout1 = `_cs296_19.aux'.
+)
+(./g19_proj_report.aux)
+\openout1 = `g19_proj_report.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 7.
 LaTeX Font Info:    ... okay on input line 7.
@@ -86,8 +87,7 @@ LaTeX Font Info:    ... okay on input line 7.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 7.
 LaTeX Font Info:    ... okay on input line 7.
 LaTeX Font Info:    Try loading font information for OT1+ppl on input line 7.
-
-(/usr/share/texmf-texlive/tex/latex/psnfss/ot1ppl.fd
+ (/usr/share/texmf-texlive/tex/latex/psnfss/ot1ppl.fd
 File: ot1ppl.fd 2001/06/04 font definitions for OT1/ppl.
 )
 (/usr/share/texmf-texlive/tex/context/base/supp-pdf.mkii
@@ -157,37 +157,30 @@ File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <14.4> not available
 (Font)              Font shape `OT1/ppl/b/n' tried instead on input line 13.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <10.95> on input line 19.
-
-Overfull \hbox (4.30725pt too wide) in paragraph at lines 19--20
-\OT1/ppl/m/n/10.95 ments of OpenGL(GLUT) for ren-der-ing the graph-ics. This si
-m-u-la-tion has been cre-ated as part of our $[]$.
- []
-
+(Font)              <10.95> on input line 16.
 LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <12> not available
-(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 29.
-[1
-
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2]
-LaTeX Font Info:    Try loading font information for OMS+ppl on input line 56.
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 22.
+LaTeX Font Info:    Try loading font information for OMS+ppl on input line 25.
 
 (/usr/share/texmf-texlive/tex/latex/psnfss/omsppl.fd
 File: omsppl.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ppl/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 56.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 25.
+ [1
 
-<images/g19_proj_plot01.png, id=11, 578.16pt x 433.62pt>
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] [3]
+<images/g19_proj_plot01.png, id=15, 578.16pt x 433.62pt>
 File: images/g19_proj_plot01.png Graphic file (type png)
 
 <use images/g19_proj_plot01.png>
+<images/g19_proj_plot03.png, id=17, 578.16pt x 433.62pt>
+File: images/g19_proj_plot03.png Graphic file (type png)
+
+<use images/g19_proj_plot03.png>
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<images/g19_proj_plot03.png, id=13, 578.16pt x 433.62pt>
-File: images/g19_proj_plot03.png Graphic file (type png)
-
-<use images/g19_proj_plot03.png> [3]
 <images/g19_proj_plot05.png, id=18, 578.16pt x 433.62pt>
 File: images/g19_proj_plot05.png Graphic file (type png)
 
@@ -195,51 +188,55 @@ File: images/g19_proj_plot05.png Graphic file (type png)
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[4 <./images/g19_proj_plot01.png> <./images/g19_proj_plot03.png>]
-<images/g19_proj_plot02.png, id=24, 794.97pt x 722.7pt>
+[4 <./images/g19_proj_plot01.png>] [5 <./images/g19_proj_plot03.png> <./images/
+g19_proj_plot05.png>] <images/g19_proj_plot02.png, id=28, 794.97pt x 722.7pt>
 File: images/g19_proj_plot02.png Graphic file (type png)
 
-<use images/g19_proj_plot02.png> [5 <./images/g19_proj_plot05.png> <./images/g1
-9_proj_plot02.png>] <images/g19_proj_plot04.png, id=30, 794.97pt x 722.7pt>
+<use images/g19_proj_plot02.png> [6 <./images/g19_proj_plot02.png>]
+<images/g19_proj_plot04.png, id=33, 794.97pt x 722.7pt>
 File: images/g19_proj_plot04.png Graphic file (type png)
 
-<use images/g19_proj_plot04.png> [6 <./images/g19_proj_plot04.png>]
-<images/callgraphdebug.png, id=35, 9499.49pt x 441.65pt>
+<use images/g19_proj_plot04.png> [7 <./images/g19_proj_plot04.png>]
+<images/callgraphdebug.png, id=39, 9499.49pt x 441.65pt>
 File: images/callgraphdebug.png Graphic file (type png)
 
 <use images/callgraphdebug.png>
-<images/callgraphrelease.png, id=36, 8114.315pt x 144.54pt>
+<images/callgraphrelease.png, id=40, 8114.315pt x 144.54pt>
 File: images/callgraphrelease.png Graphic file (type png)
 
-<use images/callgraphrelease.png> [7 <./images/callgraphdebug.png (PNG copy)>]
+<use images/callgraphrelease.png>
 LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <10.95> not available
-(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 161.
-LaTeX Font Info:    Try loading font information for OML+ppl on input line 174.
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 213.
+ [8 <./images/callgraphdebug.png (PNG copy)> <./images/callgraphrelease.png (PN
+G copy)>]
+LaTeX Font Info:    Try loading font information for OML+ppl on input line 236.
 
 
 (/usr/share/texmf-texlive/tex/latex/psnfss/omlppl.fd
 File: omlppl.fd 
 )
 LaTeX Font Info:    Font shape `OML/ppl/m/n' in size <10.95> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 174.
- [8 <./images/callgraphrelease.png (PNG copy)>] [9] (./_cs296_19.aux) ) 
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 236.
+ [9]
+(./g19_proj_report.bbl) [10] (./g19_proj_report.aux) ) 
 Here is how much of TeX's memory you used:
- 1456 strings out of 495061
- 19929 string characters out of 1182621
- 73737 words of memory out of 3000000
- 4639 multiletter control sequences out of 15000+50000
- 14507 words of font info for 41 fonts, out of 3000000 for 9000
+ 1466 strings out of 495061
+ 20107 string characters out of 1182621
+ 72749 words of memory out of 3000000
+ 4644 multiletter control sequences out of 15000+50000
+ 15572 words of font info for 43 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 25i,6n,19p,1061b,276s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/usr/sh
-are/texmf-texlive/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-texlive/fonts/t
-ype1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texlive/fonts/type1/public
-/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/urw/courier/ucrr8
-a.pfb></usr/share/texmf-texlive/fonts/type1/urw/palatino/uplb8a.pfb></usr/share
-/texmf-texlive/fonts/type1/urw/palatino/uplr8a.pfb>
-Output written on _cs296_19.pdf (9 pages, 806943 bytes).
+ 25i,6n,19p,548b,276s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/share/texmf-texlive
+/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-texlive/fonts/type1/public/amsfo
+nts/cm/cmmi10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy
+10.pfb></usr/share/texmf-texlive/fonts/type1/urw/courier/ucrr8a.pfb></usr/share
+/texmf-texlive/fonts/type1/urw/palatino/uplb8a.pfb></usr/share/texmf-texlive/fo
+nts/type1/urw/palatino/uplr8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/pal
+atino/uplri8a.pfb>
+Output written on g19_proj_report.pdf (10 pages, 820006 bytes).
 PDF statistics:
- 66 PDF objects out of 1000 (max. 8388607)
+ 73 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  36 words of extra memory for PDF output out of 10000 (max. 10000000)
 

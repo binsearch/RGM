@@ -1,0 +1,118 @@
+import sys,re,os
+os.system("rm -rf ../doc/g19_lab09_report.html")
+
+def main():
+    
+    
+    f = open('g19_proj_report.tex','r')
+    fo = open('g19_proj_report.html','w')
+    lines = f.readlines()
+    k = len(lines)
+    fo.write("<!DOCTYPE html>\n <html>\n <body>\n")
+    i = 0
+    m = 0
+    img1 = 0
+    img2 = 0
+    while  (i < k) :
+        
+        line = lines[i]
+        match = re.search("\\\\section{([\w,\W]*)}" , line)
+        match1 = re.search("\\\\subsection{([\w,\W]*)}" , line)
+        
+        #if m == 3:
+         #   break
+        
+        if match:
+            if m == 9:
+                break
+           # if m == 0:
+            #    m = m + 1
+             #   i = i + 1
+              #  continue
+            
+            fo.write("<h2>")    
+            fo.write(match.group(1))
+            fo.write("</h2>\n")
+            fo.write("<p>\n")
+            while(i < k-1):
+                        i = i + 1
+                        line = lines[i]
+                        match3 = re.search("\\\\subsection{([\w,\W]*)}" , line)
+                        match4 = re.search("\\\\section{([\w,\W]*)}" , line)
+                        
+                        
+                        if match3:
+                            fo.write("</p>\n")
+                            i = i - 1
+                            break
+                        
+                        if match4:
+                            fo.write("</p>\n")
+                            i = i - 1
+                            break
+                            
+                        else :
+                            fo.write(line)
+                                             
+                         
+            
+            
+            m = m + 1
+            img1 = img1 + 1
+        if match1:
+            img2 = img2 + 1
+            fo.write("<h3>")    
+            fo.write(match1.group(1))
+            fo.write("</h3>\n")
+            
+            #get the paragraph in subsection.
+                
+            while(i < k):
+                i = i + 1
+                line = lines[i]
+                match2 = re.search("\\\\begin" , line)
+                
+                if match2:
+                        
+                      if img1 == 1:
+                        
+                        if img2 == 1:
+                            fo.write("<img src=\"../plots/g19_lab09_plot01.png\" width=560 height=460 >")
+                            fo.write("<img src=\"../plots/g19_lab09_plot03.png\" width=560 height=460 >")    
+                        
+                        if img2 == 2:
+                            fo.write("<img src=\"../plots/g19_lab09_plot05.png\" width=600 height=560>")
+                            fo.write("<img src=\"../plots/g19_lab09_plot06.png\" width=600 height=560>")     
+                        
+                        if img2 == 3:
+                            fo.write("<img src=\"../plots/g19_lab09_plot02.png\" width=660 height=560>")    
+                        
+                        if img2 == 4:
+                            fo.write("<img src=\"../plots/g19_lab09_plot04.png\" width=660 height=560>")    
+                          
+                      fo.write("<p>")
+                      
+                      while(i < k):
+                        i = i + 1
+                        line = lines[i]
+                        match3 = re.search("\\\\item\ +([\w.\W]*)" , line)
+                        match4 = re.search("\\\\end" , line)
+                        
+                        if match4:
+                            fo.write("</p>\n")
+                            break
+                        
+                        if match3:     
+                            fo.write(match3.group(1))
+                     
+                      break   
+        
+        
+        
+        i = i + 1
+
+
+
+
+if __name__ == '__main__':
+    main()
