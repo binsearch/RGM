@@ -43,7 +43,33 @@ namespace cs296
   
   // Why do we use a typedef
   typedef base_sim_t* sim_create_fcn(); 
+  
+ /* class Human{
+	public:
+		b2Body* m_body;
+		float m_radius;
+		
+		Human(b2World* world, float radius, float x, float y,float dens){
+			m_body = NULL;
+			m_radius = radius;
+			
+			//set up dynamic body, store in class variable
+       			 b2BodyDef myBodyDef;
+        		 myBodyDef.type = b2_dynamicBody;
+        	  	 myBodyDef.position.Set(x,y);
+        		 m_body = world->CreateBody(&myBodyDef);
 
+        		//add circle fixture
+       			 b2CircleShape circleShape;
+        		circleShape.m_p.Set(0, 0);
+        		circleShape.m_radius = m_radius; //use class variable
+        		b2FixtureDef myFixtureDef;
+        		myFixtureDef.shape = &circleShape;
+        		myFixtureDef.density = dens;
+        		m_body->CreateFixture(&myFixtureDef);
+    		}
+   };*/
+  
   //! <B> Simulation settings. Some can be controlled in the GUI. </B>
   struct settings_t
   {
@@ -207,7 +233,8 @@ namespace cs296
       B2_NOT_USED(contact);
       B2_NOT_USED(impulse);
     }
-
+   //! An object which points to another object of type b2World. That object will be the simulated world <br />
+    b2World* m_world;
   //How are protected members different from private memebers of a class in C++ ?
   protected:
     //! Friend class is a class which can use the private and protected members of it's friend class.<br />
@@ -226,8 +253,7 @@ namespace cs296
     debug_draw_t m_debug_draw;
     //! A 32 bit integer which stores the number of text lines displayed on the GUI(Profile/Stats) <br />
     int32 m_text_line;
-    //! An object which points to another object of type b2World. That object will be the simulated world <br />
-    b2World* m_world;
+ 
     //! The number of steps executed in the simulation <br />
     int32 m_step_count;
     //! Maximum Profile(Used for profile display on the GUI) <br />

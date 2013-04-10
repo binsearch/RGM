@@ -116,7 +116,9 @@ namespace cs296
     case 'p':
       settings.pause = !settings.pause;
       break;
-      
+    //////case 'a':
+    	///////dave.m_body.m_radius = 2.0f;
+    	//break;
       //! The default case. Why is this needed?
     default:
       if (test)

@@ -38,9 +38,11 @@ base_sim_t::base_sim_t()
 
 	b2BodyDef body_def;
 	m_ground_body = m_world->CreateBody(&body_def);
-
+	
 	memset(&m_max_profile, 0, sizeof(b2Profile));
 	memset(&m_total_profile, 0, sizeof(b2Profile));
+//	Human dave(m_world,0.9f,0.f,-22.f,1.f);
+
 }
 
 base_sim_t::~base_sim_t()

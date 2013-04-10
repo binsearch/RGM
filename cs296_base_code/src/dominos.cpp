@@ -13,7 +13,7 @@ using namespace std;
 #include "dominos.hpp"
 #define DEGTORAD 0.0174532925199432957f
 #define RADTODEG 57.295779513082320876f
-
+//! Class Ball used for creating circular objects
 class Ball {
 public:
     //class member variables
@@ -94,7 +94,69 @@ public:
 namespace cs296
 {
   dominos_t::dominos_t()
-  {	//ground
+  {	
+  	
+      		
+      		float humanX=-24.0f,humanH = 2.5f;
+   	
+        	b2BodyDef hingeBodyDef;
+      		hingeBodyDef.position.Set(humanX, -22.f);
+      		hingeBodyDef.type = b2_staticBody;
+     		b2Body* hinge = m_world->CreateBody(&hingeBodyDef);
+      		
+      		b2PolygonShape rodShape;
+      		rodShape.SetAsBox(0.2f, humanH);
+	
+      
+      		b2BodyDef rodBodyDef;
+      		rodBodyDef.position.Set(humanX, -22.f+humanH);
+      		rodBodyDef.type = b2_dynamicBody;
+      		rod = m_world->CreateBody(&rodBodyDef);
+      
+     	        b2FixtureDef *rodFixtureDef = new b2FixtureDef;
+      		rodFixtureDef->density = 0.25f;
+      		rodFixtureDef->shape = new b2PolygonShape;
+      		rodFixtureDef->shape = &rodShape;
+      		rod->CreateFixture(rodFixtureDef);
+      
+     	       /* b2RevoluteJointDef revJointDef;
+        	b2Vec2 pos;
+        	pos.Set(humanX,-22.f);
+        	revJointDef.Initialize(hinge, rod, pos);
+        	m_world->CreateJoint(&revJointDef);*/
+        	
+        	//Ball head(m_world,.75,humanX,-22.0f+ 2*humanH,0.);
+	 	//head.renderAtBodyPosition();
+	 	
+	 	//b2Body* smallSphere;
+        	b2CircleShape smallCircle;
+        	smallCircle.m_radius = 0.75;
+        	b2FixtureDef smallBallFixtureDef;
+    		smallBallFixtureDef.shape = &smallCircle;
+    		smallBallFixtureDef.density=0.0f;
+    		smallBallFixtureDef.friction=0.0f;
+    		smallBallFixtureDef.restitution = 0.0f;
+    		b2BodyDef smallBallBodyDef;
+    		smallBallBodyDef.type = b2_dynamicBody;
+    		smallBallBodyDef.position.Set(humanX,-22.0f + 2*humanH);
+    		head = m_world->CreateBody(&smallBallBodyDef);
+    		head->CreateFixture(&smallBallFixtureDef);
+	 	
+	 	
+	 	b2RevoluteJointDef headJointDef;
+	 	b2Vec2 neckPos;
+	 	neckPos.Set(head->GetPosition().x,-22.0f+2*humanH);
+	 	
+	 	
+	 	headJointDef.Initialize(rod,head,neckPos);
+        	neckJoint=m_world->CreateJoint(&headJointDef);
+        
+      	//! <B>1 : Ground. </B> <br />
+        /*! <pre> We first create a variable for the rigid body,i.e. , the ground. This shape is a combination of three straightlines arranged in such a way that it would hold the container of balls (when it falls down).three fixtures are created for three straight lines and they are passed to body
+        we define a BodyDef object which is passed to the world object to create a body. 
+        Finally the ground is shown using CreateFixture which has zero density and is now visible on the GUI
+    	</pre>
+    */	
     	  b2Body* b1; 
     	{
     	  b2EdgeShape shape;
@@ -110,7 +172,12 @@ namespace cs296
           b1->CreateFixture(&shape1, 0.0f);
           b1->CreateFixture(&shape2, 0.0f);
         }
-        // Top horizontal shelf
+        //! ------------------------- \n \n
+    //! <B> 2 : Top horizontal shelf</B> <br />
+    /*! <pre> We create a rectangle shape with width 6.0f and 0.5f and the center of this object is at (-39,45) from the attributes of bd.
+  Finally, we show the object on the GUI using CreateFixture<br />
+	</pre>    
+    */
    
    	 {
     
@@ -123,7 +190,11 @@ namespace cs296
      	 ground->CreateFixture(&shape, 0.0f);
    	 }
         
-        //Small red ball at the top
+       //! ------------------------- \n \n
+    //! <B> 3 : small and a large ball combination which sets off the simulation</B> <br />
+        /*! <prev> we first create a circle with 0.8 radius and hten create a larger circle with 1.8 radius. we link these two bodies with a pulley joint so that as the bigger ball goes down the smaller one hits the vertical hinge and sets off the simulation.
+        </prev>
+        */
         {
         	b2Body* smallSphere;
         	b2CircleShape smallCircle;
@@ -167,10 +238,11 @@ namespace cs296
         
         
     
-        
+         //! ------------------------- \n \n
+    //! <B> 3 : the vertical hinged box</B> <br />
         
         {	
-        	b2BodyDef hingeBodyDef;
+        	b2BodyDef hingeBodyDef;	//! we first create b2Body* object "hinge" (Box shape) which won't be displayed as we don't assign any fixture to it.
       		hingeBodyDef.position.Set(-43.0f, 43.5f);
      		b2Body* hinge = m_world->CreateBody(&hingeBodyDef);
       		
@@ -178,7 +250,7 @@ namespace cs296
       		rodShape.SetAsBox(0.2f, 3.0f);
 	
       
-      		b2BodyDef rodBodyDef;
+      		b2BodyDef rodBodyDef;	//! the b2Body object "rod" is also created in a similar fashion.this will be displayed as we assign the fixture "rodFixtureDef"  to this.
       		rodBodyDef.position.Set(-43.0f, 45.0f);
       		rodBodyDef.type = b2_dynamicBody;
       		b2Body* rod = m_world->CreateBody(&rodBodyDef);
@@ -189,7 +261,7 @@ namespace cs296
       		rodFixtureDef->shape = &rodShape;
       		rod->CreateFixture(rodFixtureDef);
       
-     	        b2RevoluteJointDef jointDef;
+     	        b2RevoluteJointDef jointDef;	//! then we create a b2RevoluteJointDef object "jointDef" and link the rod and hinge and we constrain the upper limit and lower limit of rotation angles appropriately.
       		jointDef.bodyA = rod;
       		jointDef.bodyB = hinge;
       		jointDef.localAnchorA.Set(0,-1.5f);
@@ -225,16 +297,72 @@ namespace cs296
         
         }
         
+       /* {
+        	Ball sb = Ball(m_world, 0.7f,-49.4,48,1.4);
+        	sb.renderAtBodyPosition();
+        	
+        	b2Body* boulderGrdBody;
+        	
+        	b2PolygonShape grd;
+        	grd.SetAsBox(7.3f,0.1f);
+        	b2BodyDef grdBodyDef;
+        	grdBodyDef.position.Set(-52.60f,38.8f);
+        	grdBodyDef.angle = b2_pi*0.008;
+        	b2FixtureDef grdFixtureDef;
+        	grdFixtureDef.shape=&grd;
+        	grdFixtureDef.density=40.0f;
+        	grdFixtureDef.friction=81.5f;
+        	grdFixtureDef.restitution=0.0;
+        	
+        	boulderGrdBody = m_world->CreateBody(&grdBodyDef);
+        	boulderGrdBody->CreateFixture(&grdFixtureDef); 
         
-        // Newton's Cradle
-        {
-        	b2PolygonShape barShape;
+        	int sftdomx=-59.8,sftdomy=40;	
+                {
+      			float x,y;
+      			x = 0+sftdomx;
+      			y = sftdomy;
+      			b2PolygonShape shape;
+      			shape.SetAsBox(0.1f, 1.2f);
+	
+      			b2FixtureDef fd;
+      			fd.shape = &shape;
+      			fd.density = 20.0f;
+      			fd.friction = 0.1f;
+		
+      			for (int i = 0; i < 10; ++i)
+		  	{
+	    			b2BodyDef bd;
+	    			bd.type = b2_dynamicBody;
+	    			bd.position.Set(x + 1.0 * i, y);
+	    			b2Body* body = m_world->CreateBody(&bd);
+	    			body->CreateFixture(&fd);
+	  		}
+	  		//b2BodyDef bd;
+	  		//shape.SetAsBox(0.1f,1.2f);
+	  		//bd.type = b2_dynamicBody;
+	  		//fd.density=40;
+	  		//bd.position.Set( x + 9.8, (y + 1.0));
+	  		//b2Body* body = m_world->CreateBody(&bd);
+	  		//body->CreateFixture(&fd);
+	  		
+	  
+      			
+    		}
+        
+        
+        }*/
+        
+        //! ------------------------- \n \n
+    //! <B> 4 : the newton's cradle</B> <br />
+        {	//! first we create a ceiling from which balls are hanged.
+        	b2PolygonShape barShape;	//! b2Body* object "bar" is created as a box with dimensions 7x0.04
         	barShape.SetAsBox(3.5f,0.02f);
         	b2BodyDef barDef;
         	barDef.position.Set(-37.8f,43.f);
         	barDef.type = b2_staticBody;
         	b2Body* bar = m_world -> CreateBody(&barDef);
-        	
+        	//! consequently fixture is defined for "bar"
         	b2FixtureDef* barFixDef = new b2FixtureDef;
         	barFixDef->density = 1.f;
         	barFixDef->shape = new b2PolygonShape;
@@ -243,11 +371,12 @@ namespace cs296
         	
         	float bobY=40.0f,bobX=-34.8f; 
         	float rad=1.0,len=3;
-        	
+        	//! In the "for" loop we create four pendulum which will be placed side by side to produce newton's cradle
+        	//! The pendulum is  essentially a single ball which is anchored to ceiling to produce pendulum effect.
         	for (int i=0;i<4;i++){
         		float x = bobX - rad*i*2;
-        		b2Body* bob;
-        		b2BodyDef bobDef;
+        		b2Body* bob;//! A b2Body* object bob is created in the shape of a circle.
+        		b2BodyDef bobDef;//! As u can see the final bob is given more density as it involves in a collision with a ball subsequently.
         		bobDef.type=b2_dynamicBody;
         		b2CircleShape circle;
         		circle.m_radius = rad;
@@ -267,11 +396,11 @@ namespace cs296
         		bob = m_world->CreateBody(&bobDef);
         		bob->CreateFixture(&bobFixDef);
         		
-        		b2BodyDef hingebd;
+        		b2BodyDef hingebd;//! b2Body* "hinge" is created with no fixture definition so that it on't be displayed.
         		hingebd.position.Set(x,bobY+len);
         		b2Body* hinge = m_world->CreateBody(&hingebd);
         		
-        		b2RevoluteJointDef revJointDef;
+        		b2RevoluteJointDef revJointDef;//! a b2RevolutejointDef "revJointDef" is created which is used to link the "hinge" and the "ball"
         		b2Vec2 pos;
         		pos.Set(x,bobY+len);
         		revJointDef.Initialize(bob, hinge, pos);
@@ -288,7 +417,9 @@ namespace cs296
         
         
         int tr = 2;
-        //big blue boulder
+         //! ------------------------- \n \n
+    //! <B> 5 : The big blue boulder</B> <br />
+        //! this is the ball which will be set in to motion by the newton's cradle.
         {
 		b2Body* blueBoulder;
 		
@@ -299,7 +430,7 @@ namespace cs296
 		boulderBodyDef.type = b2_dynamicBody;
 		boulderBodyDef.position.Set(-32.0f,40.0f);
 		
-		b2FixtureDef boulderFixtureDef;
+		b2FixtureDef boulderFixtureDef;//! a b2FixtureDef object "boulderFixtureDef" is created the shape assigned as a circle with radius 1.2f,density = 1.5f, friction = 80.5f; restitution 0.0f
     		boulderFixtureDef.shape = &boulderShape;
     		boulderFixtureDef.density=1.5f;
     		boulderFixtureDef.friction=80.5f;
@@ -308,9 +439,9 @@ namespace cs296
     		blueBoulder = m_world->CreateBody(&boulderBodyDef);
     		blueBoulder->CreateFixture(&boulderFixtureDef);
         	
-        	b2Body* boulderGrdBody;
+        	b2Body* boulderGrdBody;//! now we have to create a stationary bar which holds the above "blueBoulder"
         	
-        	b2PolygonShape grd;
+        	b2PolygonShape grd;//! a b2Body* object boulderGrdBody is created. it is set as a box with dimensions 4x0.2
         	grd.SetAsBox(2.0f,0.1f);
         	
         	b2BodyDef grdBodyDef;
@@ -329,27 +460,27 @@ namespace cs296
         
         
 	
-		
+	//! ------------------------- \n \n
+    //! <B> 5 : the open box</B> <br />	
 	int diff=32.6-28.0;	
     {
       b2BodyDef *bd = new b2BodyDef;
       bd->type = b2_dynamicBody;
       bd->position.Set(tr+3.2,18.0f);
       bd->fixedRotation = true;
-      
       //! The open box is created using 3 rectangles joined to form an open box
       b2FixtureDef *fd1 = new b2FixtureDef;
-      //! The open box is set to be shown with certain attributes like density to be 10,friction co-efficient as 0.5
+      //! we declare three fixture definitions and assign all the three to a b2Body object to produce a openbox
       fd1->density = 40.0;
       fd1->friction = 0.5;
       //! Co-effecient of restitution to be 0
       fd1->restitution = 0.f;
-      //! The shape is declared which is then later defined to be a rectangle of width 4,height 0.4, center of box to have co-ordinates to be(0,-1.9) and density 0 
+     
       fd1->shape = new b2PolygonShape;
       b2PolygonShape bs1;
       bs1.SetAsBox(2.0,0.2, b2Vec2(-27.9f-diff,11.8f), 0);//hz
       fd1->shape = &bs1;
-      //! Another rectangle is defined to have same density,friction and restitution as the previous rectangle but the width is 0.4,height is 4, rectangle's center is located at (2,0) with density 0
+     
       b2FixtureDef *fd2 = new b2FixtureDef;
       fd2->density = 50.0;
       fd2->friction = 0.5;
@@ -358,7 +489,7 @@ namespace cs296
       b2PolygonShape bs2;
       bs2.SetAsBox(0.2,2.5, b2Vec2(-29.65f-diff,14.15f), 0);//vertical
       fd2->shape = &bs2;
-      //! Another rectangle is defined to have same density,friction and restitution as the previous 2 rectangles but the width is 0.4,height is 4, rectangle's center is located at (-2,0) with density 0
+     
       b2FixtureDef *fd3 = new b2FixtureDef;
       fd3->density = 40.0;
       fd3->friction = 0.5;
@@ -367,15 +498,15 @@ namespace cs296
       b2PolygonShape bs3;
       bs3.SetAsBox(0.2,2.5, b2Vec2(-26.15f-diff,14.15f), 0);//vertical
       fd3->shape = &bs3;
-       //! The 3 boxes are joined together using CreateFixture and shown.
+       
       b2Body* box1 = m_world->CreateBody(bd);
       box1->CreateFixture(fd1);
       box1->CreateFixture(fd2);
       box1->CreateFixture(fd3);
 
-      //! The bar is a rectangle with it's center's co-ordinates to be (10,15), density 34 and then the bar is displayed on screen using CreateFixture
+      //! now we build a vertical bar which is linked to the openbox by a pulley
       {
-     
+      //! a b2Body object "box2" is created for creating the bar and we assign the fixture subsequently. 
       bd->position.Set(-18,45);	
       b2FixtureDef *openFD = new b2FixtureDef;
       openFD->density = 111;
@@ -392,12 +523,12 @@ namespace cs296
       
       b2Vec2 worldAnchorGround1(-27.0, 50); //! Anchor point for ground 1 in world axis
       b2Vec2 worldAnchorGround2(-18, 50); //! Anchor point for ground 2 in world axis
-      float32 ratio = 1.0f; //! Define ratio
+      float32 ratio = 1.0f; //! we define the ratio and create the pulley joint
       myjoint->Initialize(box1, box2, worldAnchorGround1, worldAnchorGround2, box1->GetWorldCenter(), box2->GetWorldCenter(), ratio);
       m_world->CreateJoint(myjoint);
       }
       
-      
+      //! a new open box is created exactly as shown above.
       { 
       b2BodyDef *bd = new b2BodyDef;
       bd->type = b2_dynamicBody;
@@ -406,17 +537,17 @@ namespace cs296
       
       //! The open box is created using 3 rectangles joined to form an open box
       b2FixtureDef *fd1 = new b2FixtureDef;
-      //! The open box is set to be shown with certain attributes like density to be 10,friction co-efficient as 0.5
+   
       fd1->density = 1.0;
       fd1->friction = 0.5;
-      //! Co-effecient of restitution to be 0
+     
       fd1->restitution = 0.f;
-      //! The shape is declared which is then later defined to be a rectangle of width 4,height 0.4, center of box to have co-ordinates to be(0,-1.9) and density 0 
+     
       fd1->shape = new b2PolygonShape;
       b2PolygonShape bs1;
       bs1.SetAsBox(2.0,0.2, b2Vec2(-27.9f-diff,11.8f), 0);//hz
       fd1->shape = &bs1;
-      //! Another rectangle is defined to have same density,friction and restitution as the previous rectangle but the width is 0.4,height is 4, rectangle's center is located at (2,0) with density 0
+     
       b2FixtureDef *fd2 = new b2FixtureDef;
       fd2->density = 1.0;
       fd2->friction = 0.5;
@@ -425,7 +556,7 @@ namespace cs296
       b2PolygonShape bs2;
       bs2.SetAsBox(0.2,2.5, b2Vec2(-29.65f-diff,14.15f), 0);//vertical
       fd2->shape = &bs2;
-      //! Another rectangle is defined to have same density,friction and restitution as the previous 2 rectangles but the width is 0.4,height is 4, rectangle's center is located at (-2,0) with density 0
+     
       b2FixtureDef *fd3 = new b2FixtureDef;
       fd3->density = 1.0;
       fd3->friction = 0.5;
@@ -443,7 +574,12 @@ namespace cs296
       box1->SetGravityScale(0.0);
       }
       
+        //! ------------------------- \n \n
+    //! <B> 6 : the balls on the static slant platform</B> <br />
+
+      //! Then we create 4 balls and position them on the slant static platform
       {
+      //! 4 b2Body* objects are created for this purpose (dynamicBody,dynamicBody1,dynamicBody2,dynamicBody3)
       	b2BodyDef myBodyDef;
 	myBodyDef.type = b2_dynamicBody; //this will be a dynamic body
 	myBodyDef.position.Set(-20.5, 46.92); //set the starting position
@@ -471,7 +607,9 @@ namespace cs296
 	dynamicBody3->CreateFixture(&boxFixtureDef);
 	dynamicBody3->SetLinearVelocity( b2Vec2( -0.5, -0.5 ) );	
       }
-      //static slanted platform
+      //! ------------------------- \n \n
+    //! <B> 7 :static slant platform</B> <br />
+	//! we just create a box at an angle which is stationary
       {
       bd->type = b2_kinematicBody;
       bd->position.Set(-20.2,45);	
@@ -489,7 +627,10 @@ namespace cs296
       box2->CreateFixture(openFD);
      
       }
-      
+       //! ------------------------- \n \n
+    //! <B> 8 :the see saw</B> <br />
+	//! first we create the traingular wedge which supports the plank above it.
+    //! we define the verticees for the shape to create a trinagle.  
        {
        int p=3.5;
       //!task1 -- The triangle wedge
@@ -506,26 +647,26 @@ namespace cs296
       wedgefd.friction = 0.0f;//! friction set to 0.0f
       wedgefd.restitution = 0.0f;//! restitution set to 0.0f
       b2BodyDef wedgebd;//! wedgebd -- b2BodyDef varaible.
-      wedgebd.position.Set(-26.0f, 10.5f);//! position set to 30.0f,0.0f
+      wedgebd.position.Set(-26.0f, 10.5f);//! position set to -26.0f,10.5f
       sbody = m_world->CreateBody(&wedgebd);//! triangle wedge is created.
       sbody->CreateFixture(&wedgefd);
 
       //!task2 -- The plank on top of the wedge
       b2PolygonShape shape;
-      shape.SetAsBox(12.0f, 0.2f);//! shape set to box with dimensions (30.0f,0.4f).
+      shape.SetAsBox(12.0f, 0.2f);//! shape set to box with dimensions (12.0f,0.2f).
       b2BodyDef bd2;//! bd2 -- b2BodyDef variable defined.
-      bd2.position.Set(-26.0f, 12.0f);//!position set to (30.0f , 1.5f)
+      bd2.position.Set(-26.0f, 12.0f);//!position set to (-26.0f , 12f)
       bd2.type = b2_dynamicBody;//! the type of the body is set to b2_dynamicBody as it will be moving.
       b2Body* body = m_world->CreateBody(&bd2);
       b2FixtureDef *fd2 = new b2FixtureDef;//! fd2 -- pointer to b2FixtureDef variable.
-      fd2->density = 3.0f;//! density set to 1.f
+      fd2->density = 3.0f;//! density set to 3.f
       fd2->shape = new b2PolygonShape;//! shape set to polygon
       fd2->shape = &shape;
       body->CreateFixture(fd2);//! plank object is created.
       body->SetGravityScale(0);
       b2RevoluteJointDef jd;//! jd -- b2RevolutejointDef variable for joint.
       b2Vec2 anchor;//! anchor declared.
-      anchor.Set(-26.0f, 12.0f);//!anchor position set to (30.0f, 1.5f)
+      anchor.Set(-26.0f, 12.0f);//!anchor position set to (-26.0f, 12f)
       jd.Initialize(sbody, body, anchor);//! joint is intialised with the menbers anchor,body , sbody.
       m_world->CreateJoint(&jd);
       jd.lowerAngle=0;
@@ -537,7 +678,9 @@ namespace cs296
      
     }
     
-    //small ball on see-saw(left side)
+  //! ------------------------- \n \n
+    //! <B> 8 :the small ball on the see-saw</B> <br />
+    //! we create a small ball and position it on the plank we created above
     { 	
     	b2Body* smallBall;
 		
@@ -553,14 +696,18 @@ namespace cs296
     	smallBallFixtureDef.density=10.0f;
     	smallBallFixtureDef.friction=0.36f;
     	smallBallFixtureDef.restitution = 0.0f;
-    		
+    	//! we turn off gravity for this ball using SetGravityScale(x) function.	
     	smallBall = m_world->CreateBody(&smallBallBodyDef);
     	smallBall->CreateFixture(&smallBallFixtureDef);
     	smallBall->SetGravityScale(0.0);
     }	
 		
         
-        
+       //! ------------------------- \n \n
+    //! <B> 9 :the 4 balls  on the horizontal platform with ditches.</B> <br />
+    
+      //! in this part we just create three circles and position them appropriately.
+         
         int sftx=22,sfty=12;
 	   {	  
 	        float vel;
@@ -596,15 +743,12 @@ namespace cs296
 			
 		 }
 		
-		
-	
-  		
-  		
-  	
-  	
-  	
-  	
-  	//the dominos part
+//! -------------------------- \n \n
+    //! <B> 10 : Dominoes </B> <br />
+    /*! <pre>We first set a shape which is a rectangle and we assign a fixture to it.  We then set up 10 dynamic bodies(dominoes). we then create a larger domino at the end.
+    
+    </pre>
+    */
   	int sftdomx=-3,sftdomy=5;	
     {
       float x,y;
@@ -641,22 +785,18 @@ namespace cs296
       ground->CreateFixture(&shape, 0.0f); 
     }
     
-      
-        	
-      
-      
-      
+//! -------------------------- \n \n
+    //! <B> 10 : revolving platforms </B> <br />
+    //! we just create 4 bars which are anchored at the centre for this part.  
       
       
-      
-      
-  	//The revolving  platforms
     {
     
       float x,y;
       x = 3.0;
       y = 16.0;
-      
+      //! we create a horizontal bar and another bar which won't be visilble as we don't assign a fixture definition for it.
+      //! and we anchor both of them to get a body which is free to rotate about it's centre
       b2PolygonShape shape;
       shape.SetAsBox(2.2f, 0.2f);
 	
@@ -747,15 +887,16 @@ namespace cs296
       m_world->CreateJoint(&jointDef3);
     
     }
-	
-  		
-  	//platform on which balls roll
-  	
+//! -------------------------- \n \n
+    //! <B> 10 : platform with pits. </B> <br />
+    //! we have designed this in the following way.
+    //! we created two horizontal bars which are on the same level but seperated from each other and we kwpt two pits one in between the two and other at the end. the first pit can accomodate 2 balls and the second pit accomodates 1 ball. these pits are created in the similar way we have created the open box.   
   	{
   	    float r,x,y;
   	    x = -5+sftx;
   	    y = 25+sfty;
   	    r = 0.5;
+  	    //! the first snippet is to create the first horizontal bar
   	    {
   	        b2PolygonShape shape;
             	shape.SetAsBox(3.0f, 0.01f);
@@ -766,7 +907,7 @@ namespace cs296
             	ground->CreateFixture(&shape, 0.0f);
   	    }
   	    
-  	    
+  	      //! the second snippet creates the second horizontal part.
   	    {
   	        b2PolygonShape shape;
             	shape.SetAsBox(3.0f, 0.01f);
@@ -777,7 +918,8 @@ namespace cs296
             	ground->CreateFixture(&shape, 0.0f);
   	    }
   	    
-  	    
+  	     //! the third snippet creates the first open box.
+  	    //!the depth of this pit is such that it can accomodate two balls.
   	    {
       	    	b2BodyDef myBodyDef;
             	myBodyDef.type = b2_staticBody;
@@ -796,7 +938,8 @@ namespace cs296
       		polygonShape.SetAsBox(0.02f,2. * r, b2Vec2(-r-0.06,0), 0 );
       		ditch->CreateFixture(&myFixtureDef);
         	}  	
-  	    
+  	      //! the fourth snippet creates the second open box.
+  	    //! the depth of this second pit can accomodate one ball.
   	    {
       	    	b2BodyDef myBodyDef;
             	myBodyDef.type = b2_staticBody;
@@ -819,7 +962,14 @@ namespace cs296
   	
   	
   	}	
-  	//Conveyor Belt
+  	//! -------------------------- \n \n
+    //! <B> 10 : Conveyer Belt </B> <br />
+    //! the way in which we designed the conveyer belt is the following.
+    //! first we create 4 chains and then link them end to end to forma rectangle (sort of)
+    //! then we insert three circles spaed vertically inside the chain.
+    //! these two circles are given a constant angular velocity and they are kinematic so they won't stop.
+    //! these balls are given sufficient friction so that they drag the chain along in turn creating a conveyer belt.
+    //! we attach two 'L' shaped fixtures to two links which are diagonally opposite. 
   	{   
   		float xm,ym;
         	float width;
@@ -832,6 +982,13 @@ namespace cs296
         	b2Body* ground2; 
         	b2Body* ground3;
         	b2Body* ground4;
+        	//* CREATING A chain :
+        	//* for the chain we set two b2Body* variables "body" , "prevBody"
+        	//* we first create the "prevBody" and then in the loop create the "body" and anchor them using a Revolute joint and then for the next iteration ,
+        	//*    prevBody =   body
+        	//* so now when we create 3rd link in the iteration we would have defined the 2nd link as the prevBody and we would anchor them. 
+        	//* in this way we link (i+1)th and ith link.
+        	//* in this iterative fashion we will create the chain.
         	{
 		    b2Body* ground = NULL;
 		    {
@@ -887,7 +1044,7 @@ namespace cs296
   	
   	
   	
-  	    
+  //* in this way we create two vertical chians and connect them using two horizontal chains to create a rectangular chain.	    
   	    {
 		    b2Body* ground = NULL;
 		    {
@@ -976,6 +1133,10 @@ namespace cs296
 		    	jd.Initialize(prevBody, ground2, anchor);
 		    	m_world->CreateJoint(&jd); 
 		    }
+		      //* now we create three circles spaced vertically.
+		    //* these circles are kinematic so they won't stop on application of force.
+		    //* we set angular velocity for these circles.
+		    //* as these have friction they drag the chain along.
 		    
 		    {
 		        
@@ -1034,7 +1195,7 @@ namespace cs296
 	    
 	    
 	    {
-		    
+		    //* then we create two 'L' shaped fixtures and attach these two diagonally opposite links to create the final conveyer belt
 		    {
 		    	b2PolygonShape shape;
 		    	shape.SetAsBox(0.3f,0.1f);
@@ -1091,7 +1252,8 @@ namespace cs296
 	        ground1->CreateFixture(&myFixtureDef);   
 	    }
 	 }
-	 //Big orange boulder
+	 //! -------------------------- \n \n
+    //! <B> 11 : the Boulder which ruthlessly kills the man </B> <br />
 	 {
 	b2BodyDef myBodyDef;
 	myBodyDef.type = b2_dynamicBody; //this will be a dynamic body
@@ -1115,45 +1277,8 @@ namespace cs296
    	supBody->CreateFixture(&boxFixtureDef);
   
    }
-	//Human
-	float humanX=-24.0f,humanH = 2.5f;
-   {	
-        	b2BodyDef hingeBodyDef;
-      		hingeBodyDef.position.Set(humanX, -22.f);
-      		hingeBodyDef.type = b2_staticBody;
-     		b2Body* hinge = m_world->CreateBody(&hingeBodyDef);
-      		
-      		b2PolygonShape rodShape;
-      		rodShape.SetAsBox(0.2f, humanH);
 	
-      
-      		b2BodyDef rodBodyDef;
-      		rodBodyDef.position.Set(humanX, -22.f+humanH);
-      		rodBodyDef.type = b2_dynamicBody;
-      		b2Body* rod = m_world->CreateBody(&rodBodyDef);
-      
-     	        b2FixtureDef *rodFixtureDef = new b2FixtureDef;
-      		rodFixtureDef->density = 0.25f;
-      		rodFixtureDef->shape = new b2PolygonShape;
-      		rodFixtureDef->shape = &rodShape;
-      		rod->CreateFixture(rodFixtureDef);
-      
-     	        b2RevoluteJointDef revJointDef;
-        	b2Vec2 pos;
-        	pos.Set(humanX,-22.f);
-        	revJointDef.Initialize(hinge, rod, pos);
-        	m_world->CreateJoint(&revJointDef);
-        	
-        	Ball head(m_world,.75,humanX,-22.0f+ 2*humanH,0.);
-	 	head.renderAtBodyPosition();
-	 	b2RevoluteJointDef headJointDef;
-	 	b2Vec2 neckPos;
-	 	neckPos.Set(humanX,-22.0f+2*humanH);
-	 	
-	 	
-	 	headJointDef.Initialize(rod,head.m_body,neckPos);
-        	m_world->CreateJoint(&headJointDef);
-        }
+	
 
 	 
   	
@@ -1162,5 +1287,5 @@ namespace cs296
   		
 	}
 
-  sim_t *sim = new sim_t("Dominos", dominos_t::create);
+  sim_t *sim = new sim_t("                                                                           Tomb of Pharoah Tutankhamun", dominos_t::create);
 }
