@@ -8,7 +8,7 @@ def main():
     fo = open('../doc/g19_lab09_report.html','w')
     lines = f.readlines()
     k = len(lines)
-    fo.write("<!DOCTYPE html>\n <html>\n <head> \n <title> CS296 Group 19 Rube Goldberg Simulation Report </title> \n </head> \n <body>\n <h1> CS 296 Group 19 Rube Goldberg Simulation Design and Inference Report</h1>")
+    fo.write("<!DOCTYPE html>\n <html>\n <head> \n <title> CS 296 Group 19 Rube Goldberg Simulation</title> \n </head> \n <body>\n <h1>CS 296 Group 19 Rube Goldberg Simulation: Design and Inference Report</h1> \n")
     i = 0
     m = 0
     img1 = 0
@@ -41,6 +41,10 @@ def main():
                         match4 = re.search("\\\\section{([\w,\W]*)}" , line)
                         match5 = re.search("([\w,\W]+)\\\\[\w,\W]+{([\w,\W]+)}([\w,\W]+)" , line)
                         match6 = re.search("bibliographystyle" , line)
+                        #if img1 == 0:
+                         #   fo.write("<img src=\"images/mainsim.png\" width=560 height=460 >")
+                        
+                        
                         #if match5:
                         #    print (match5.group(3))
                         if match3:
@@ -74,6 +78,8 @@ def main():
             m = m + 1
             img1 = img1 + 1
         if match1:
+           # print (img1)
+           # print (img2)
             img2 = img2 + 1
             fo.write("<h3>")    
             fo.write(match1.group(1))
@@ -88,22 +94,30 @@ def main():
                 
                 if match2:
                         
-                      if img1 == 1:
+                      if img1 ==5:
                         
-                        if img2 == 1:
-                            fo.write("<img src=\"images/g19_lab09_plot01.png\" width=560 height=460 >")
-                            fo.write("<img src=\"images/g19_lab09_plot03.png\" width=560 height=460 >")    
+                        if img2 == 8:
+                            fo.write("<img src=\"g19_proj_plot01.png\" width=560 height=460 >")
+                            #fo.write("<img src=\"plot03.png\" width=560 height=460 >")    
                         
-                        if img2 == 2:
-                            fo.write("<img src=\"images/g19_lab09_plot05.png\" width=600 height=560>")
-                            fo.write("<img src=\"images/g19_lab09_plot06.png\" width=600 height=560>")     
+                        if img2 == 9:
+                            fo.write("<img src=\"g19_proj_plot03.png\" width=600 height=560>")
+                            #fo.write("<img src=\"../plots/g19_lab09_plot06.png\" width=600 height=560>")     
                         
-                        if img2 == 3:
-                            fo.write("<img src=\"images/g19_lab09_plot02.png\" width=660 height=560>")    
+                        if img2 == 10:
+                            fo.write("<img src=\"g19_proj_plot05.png\" width=660 height=560>")    
                         
-                        if img2 == 4:
-                            fo.write("<img src=\"images/g19_lab09_plot04.png\" width=660 height=560>")    
-                          
+                        if img2 == 11:
+                            fo.write("<img src=\"g19_proj_plot02.png\" width=660 height=560>") 
+                        
+                        if img2 == 12:
+                            fo.write("<img src=\"g19_proj_plot04.png\" width=660 height=560>")   
+                            
+                      if img1 == 6:
+                        if img2 == 13:
+                          fo.write("<img src=\"callgraphdebug.png\" width=860 height=260>") 
+                        if img2 == 14:
+                          fo.write("<img src=\"callgraphrelease.png\" width=860 height=260>")   
                       fo.write("<p>")
                       
                       while(i < k):

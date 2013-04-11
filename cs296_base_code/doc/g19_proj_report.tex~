@@ -15,11 +15,12 @@
 We now present our Rube Goldberg Simulation\cite{wikirgm} "Trap of the tomb of the Pharaoh Tutankhamun". 
 This physics simulation has been developed using C++, a physics engine called Box2D developed by Mr. Erin Catto and elements of OpenGL(GLUT) for rendering the graphics. This simulation has been created as part of our \underline{CS296 project}. When such a Box2D simulation is observed, it is often breathtaking to view and we hope that you have as much fun watching it as we had while making it.
 
+
 \section{Original Design}
 
 When we initially learnt about Box2D and our project at the beginning of the semester, we looked into quite a few online Rube Goldberg Machines(primarily from YouTube\cite{rubegoldbergYouTube}). Our original design that was created at the beginning of the semester included quite a few parts. The main moving objects are described below:
 
-\subsection{The starting ball and the Newton's cradle}
+\subsection{The starting ball and the Newton's Cradle}
 
 \begin{itemize}
 	\item Firstly, the person standing below pulls a string accidently and causes the pulley system to move. 
@@ -104,7 +105,7 @@ We first analyse the time-related metrics when there is very little CPU load on 
 \begin{figure}[h!]
 \caption{Loop Time,Step Time v/s Iteration values}
 \centering
-\includegraphics[height=8cm]{images/g19_proj_plot01}
+\includegraphics[height=8cm]{g19_proj_plot01}
 \end{figure}
 
 \subsection{Loop Time}
@@ -121,12 +122,12 @@ We first analyse the time-related metrics when there is very little CPU load on 
 \begin{figure}[h!]
 \caption{Loop Time,Step Time v/s Rerun values}
 \centering
-\includegraphics[height=8cm]{images/g19_proj_plot03}
+\includegraphics[height=8cm]{g19_proj_plot03}
 \end{figure}
 \begin{figure}[h!]
 \caption{Step Time v/s Iteration values with Error bars}
 \centering
-\includegraphics[height=8cm]{images/g19_proj_plot05}
+\includegraphics[height=8cm]{g19_proj_plot05}
 \end{figure}
 \subsection{Step Time}
 	\begin{itemize}
@@ -147,7 +148,7 @@ We first analyse the time-related metrics when there is very little CPU load on 
 \begin{figure}[h!]
 \caption{Velocity, Position Update,Collision and Step Times v/s iteration values}
 \centering
-\includegraphics[height=8cm]{images/g19_proj_plot02}
+\includegraphics[height=8cm]{g19_proj_plot02}
 \end{figure}
 \subsection{Position Updates Time}
 	\begin{itemize}
@@ -159,7 +160,7 @@ We first analyse the time-related metrics when there is very little CPU load on 
 \begin{figure}[h!]
 \caption{Velocity, Position Update,Collision and Step Times v/s rerun values}
 \centering
-\includegraphics[height=8cm]{images/g19_proj_plot04}
+\includegraphics[height=8cm]{g19_proj_plot04}
 \end{figure}
 
 \section{Profiling Inferences}
@@ -188,7 +189,7 @@ We perform profiling experiments using a famous profiling tool called gprof and 
 \begin{figure}[h!]
 \caption{Call Graph for the Debug version}
 \centering
-\includegraphics[width=\linewidth,height=2.5cm]{images/callgraphdebug}
+\includegraphics[width=\linewidth,height=2.5cm]{callgraphdebug}
 \end{figure}
 	\subsection{Release Version}
 		\begin{itemize}
@@ -208,7 +209,7 @@ We perform profiling experiments using a famous profiling tool called gprof and 
 	\begin{figure}[h!]
 	\caption{Call Graph for the Release version}
 	\centering
-	\includegraphics[width=\linewidth,height=0.5cm]{images/callgraphrelease}
+	\includegraphics[width=\linewidth,height=0.5cm]{callgraphrelease}
 	\end{figure}
 	\subsubsection{Interpretation of call graphs}
 		Call graphs are really just bright, colorful graphs ,albeit, they are extremely useful:

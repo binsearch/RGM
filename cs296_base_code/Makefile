@@ -114,27 +114,13 @@ exelib: setup shared static
 	
 	@$(RM) -f temp.log temp.err
 	
-DOC_TARGET= _cs296_19
+DOC_TARGET= g19_proj_report
 
 report: 
-	@rm -rf *.aux *.blg *.bbl *.log *.dvi
-	@rm -rf $(DOCDIR)/*.aux $(DOCDIR)/*.blg $(DOCDIR)/*.bbl $(DOCDIR)/*.log $(DOCDIR)/*.dvi
-	@mv $(DOCDIR)/$(DOC_TARGET).tex .
-	@mv $(DOCDIR)/refs.bib .
-	@mv $(DOCDIR)/images/*.png .
-	@latex $(DOC_TARGET)
-	@bibtex $(DOC_TARGET)
-	@latex $(DOC_TARGET)
-	@latex $(DOC_TARGET)
-	@dvipdf $(DOC_TARGET)
-	@mv $(DOC_TARGET).* doc/
-	@mv refs.bib doc/
-	@mv *.png doc/images
-	python3 scripts/gen_html_helper.py
+	cd doc/ ; pdflatex $(DOC_TARGET) ; bibtex $(DOC_TARGET) ; pdflatex $(DOC_TARGET) ; pdflatex $(DOC_TARGET) 
 dist: clean
-	python3 scripts/createDistAll.py
-
-doc: clean
+	cd ../ ; tar -zcvf g19_proj_dist.tar.gz cs296_base_code/
+doc:
 	@$(ECHO) -n "Generating Doxygen Documentation ...  "
 	@$(RM) -rf doc/html
 	@$(DOXYGEN) $(DOCDIR)/Doxyfile 2 > /dev/null

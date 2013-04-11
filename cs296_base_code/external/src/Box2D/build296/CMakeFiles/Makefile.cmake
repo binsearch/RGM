@@ -31,12 +31,16 @@ SET(CMAKE_MAKEFILE_DEPENDS
   "/usr/share/cmake-2.8/Modules/CMakeSystemSpecificInformation.cmake"
   "/usr/share/cmake-2.8/Modules/CMakeTestCCompiler.cmake"
   "/usr/share/cmake-2.8/Modules/CMakeTestCXXCompiler.cmake"
+  "/usr/share/cmake-2.8/Modules/CMakeTestCompilerCommon.cmake"
   "/usr/share/cmake-2.8/Modules/CMakeUnixFindMake.cmake"
   "/usr/share/cmake-2.8/Modules/Compiler/GNU-C.cmake"
   "/usr/share/cmake-2.8/Modules/Compiler/GNU-CXX.cmake"
+  "/usr/share/cmake-2.8/Modules/Compiler/GNU.cmake"
+  "/usr/share/cmake-2.8/Modules/Platform/Linux-GNU-C.cmake"
+  "/usr/share/cmake-2.8/Modules/Platform/Linux-GNU-CXX.cmake"
+  "/usr/share/cmake-2.8/Modules/Platform/Linux-GNU.cmake"
   "/usr/share/cmake-2.8/Modules/Platform/Linux.cmake"
   "/usr/share/cmake-2.8/Modules/Platform/UnixPaths.cmake"
-  "/usr/share/cmake-2.8/Modules/Platform/gcc.cmake"
   )
 
 # The corresponding makefile is:

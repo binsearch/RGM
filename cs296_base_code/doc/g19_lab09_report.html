@@ -1,14 +1,16 @@
 <!DOCTYPE html>
  <html>
  <head> 
- <title> CS296 Group 19 Rube Goldberg Simulation Report </title> 
+ <title> CS 296 Group 19 Rube Goldberg Simulation</title> 
  </head> 
  <body>
- <h1> CS 296 Group 19 Rube Goldberg Simulation Design and Inference Report</h1><h2>Introduction</h2>
+ <h1>CS 296 Group 19 Rube Goldberg Simulation: Design and Inference Report</h1> 
+<h2>Introduction</h2>
 <p>
 
 We now present our Rube Goldberg Simulation(wikirgm) "Trap of the tomb of the Pharaoh Tutankhamun". 
 This physics simulation has been developed using C++, a physics engine called Box2D developed by Mr. Erin Catto and elements of OpenGL(GLUT) for rendering the graphics. This simulation has been created as part of our (CS296 project). When such a Box2D simulation is observed, it is often breathtaking to view and we hope that you have as much fun watching it as we had while making it.
+
 
 </p>
 <h2>Original Design</h2>
@@ -17,7 +19,7 @@ This physics simulation has been developed using C++, a physics engine called Bo
 When we initially learnt about Box2D and our project at the beginning of the semester, we looked into quite a few online Rube Goldberg Machines(primarily from YouTube(rubegoldbergYouTube)). Our original design that was created at the beginning of the semester included quite a few parts. The main moving objects are described below:
 
 </p>
-<h3>The starting ball and the Newton's cradle</h3>
+<h3>The starting ball and the Newton's Cradle</h3>
 <p>Firstly, the person standing below pulls a string accidently and causes the pulley system to move. 
 The string on the pulley is connected to a small ball which moves to the left under the force of the pull. 
 It stops once it reaches a rod which is hinged. This rod now rotates down to hit a Newton's cradle system and which hit a blue boulder at rest at the right side. 
@@ -88,32 +90,28 @@ There are 4 time-related metrics we are primarily concerned with:
 
 We first analyse the time-related metrics when there is very little CPU load on the computer.
 
-\begin{figure}[h!]
-\caption{Loop Time,Step Time v/s Iteration values}
-\centering
-\includegraphics[height=8cm]{images/g19_proj_plot01}
-\end{figure}
+
 
 </p>
 <h3>Loop Time</h3>
-<p>When averaged over all reruns, Loop Time increases linearly upto the 30th iteration. Beyond that a slight decrease of slope is observed but the graph still stays linear only. 
+<img src="g19_proj_plot01.png" width=560 height=460 ><p>When averaged over all reruns, Loop Time increases linearly upto the 30th iteration. Beyond that a slight decrease of slope is observed but the graph still stays linear only. 
 This is not surprising since initially the simulation starts out slower. However, as the number of iterations increases, the rate at which the simulation happens increases and therefore, the loop time grows slower with increase in iterations.
 When averaged over all iterations, Loop Time remains almost constant with respect to the rerun numbers but some jumps do creep in.
 This is clearly not a surprise since the metrics should not vary with reruns.	
 </p>
 <h3>Step Time</h3>
-<p>Step Time also,when averaged over all reruns, decreases sharply till iteration number 30 and beyond that decreases slowly.
+<img src="g19_proj_plot03.png" width=600 height=560><p>Step Time also,when averaged over all reruns, decreases sharply till iteration number 30 and beyond that decreases slowly.
 Initially, the simulation is slower and therefore, the step time is larger. However, as iteration values increase, the simulation becomes faster and therefore, the step time decreases at a faster rate.
 The step time(averaged over all iterations) decreases at a very slow rate as the rerun number changes, unsurprisingly.
 </p>
 <h3>Velocity Updates Time</h3>
-<p>The velocity updates time(averaged over all reruns) stays almost the same till iteration number 30 and then decreases at a rate which is roughly polynomial.
+<img src="g19_proj_plot05.png" width=660 height=560><p>The velocity updates time(averaged over all reruns) stays almost the same till iteration number 30 and then decreases at a rate which is roughly polynomial.
 This is easily explained since the simulation starts out slower and ,thus, the time taken for velocity updates are larger. Beyond iteration number 30, the simulation increases at a fast rate and ,therefore, the velocity updates time goes down
 Unsurprisingly, the velocity updates time(averaged over all iterations) does not vary considerably as the rerun number changes.
 The velocity updates time(averaged over all iterations) does not vary considerably as the rerun number changes because the simulation is being carried out with the same iteration value, only the rerun happens again and since the CPU load is almost constant, a different rerun does not cause this value to vary considerably.
 </p>
 <h3>Position Updates Time</h3>
-<p>The position updates time(averaged over all reruns) stays almost the same till iteration number 30 and then decreases at a rate which is roughly polynomial.
+<img src="g19_proj_plot02.png" width=660 height=560><p>The position updates time(averaged over all reruns) stays almost the same till iteration number 30 and then decreases at a rate which is roughly polynomial.
 This is easily explained since the simulation starts out slower and ,thus, the time taken for position updates are larger. Beyond iteration number 30, the simulation increases at a fast rate and ,therefore, the position updates time goes down
 Unsurprisingly, the position updates time(averaged over all iterations) does not vary considerably as the rerun number changes.
 The position updates time(averaged over all iterations) does not vary considerably as the rerun number changes because the simulation is being carried out with the same iteration value, only the rerun happens again and since the CPU load is almost constant, a different rerun does not cause this value to vary considerably.
@@ -143,7 +141,7 @@ Perhaps they can be optimized ? This will become more clear after the results of
 Shown below is the call graph of the debug version and this is essentially the same data as the profile report shown above but is useful in realising which function calls which other functions.
 </p>
 <h3>Release Version</h3>
-<p>We now run the experiment with Box2D compiled using the Release Build Type and the optimization flag -O3 is used while compiling the code. 
+<img src="callgraphdebug.png" width=860 height=260><p>We now run the experiment with Box2D compiled using the Release Build Type and the optimization flag -O3 is used while compiling the code. 
 The -O3 flag offers many optimizations and include the optimizations of -O1 to -O2 as well. 
 The executables are smaller and faster since many things have been optimized
 Instruction scheduling is included and the compiler takes longer to compile and require more memory but it provides maximum optimization without increasing size considerably. This is part of the O2 optimization
@@ -154,7 +152,7 @@ A more thorough analysis of this is done in the next subsection which compares t
 Like in the Debug version, the call graph for the Release version is shown below.
 </p>
 <h3>Comparison of the two versions</h3>
-<p>After observing the profiling reports and call graphs of the two versions, many interesting things are observed. 
+<img src="callgraphrelease.png" width=860 height=260><p>After observing the profiling reports and call graphs of the two versions, many interesting things are observed. 
 Firstly, SolveVelocityConstraints and SolveTOI are major bottlenecks with and without optimization flags. 		\item However, notice that after optimization, the constructors like b2Vec2, b2Cross and b2Dot which were initially amongst the high cycle users do not feature in the high cycle users after optimization. 
 Also, after optimization, the +, -, *, / operators which are overloaded in the B2Math.h file are not amongst the high cycle users , whereas they were amongst the top 15 high cycle users in the debug version,i.e., before optimization.
 This shows that repeated and unnecessary objects are being created in the native code and unnecessary arithmetic operators are being called when the same thing can be done using lesser calls.
